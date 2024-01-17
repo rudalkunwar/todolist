@@ -35,6 +35,8 @@ export default function Register(props) {
                 autoComplete="off"
                 className="w-full border border-gray-300 rounded-md py-2 pl-10 focus:outline-none focus:border-blue-500"
                 placeholder="Enter your email"
+                required
+
               />
             </div>
           </div>
@@ -58,6 +60,8 @@ export default function Register(props) {
                 autoComplete="off"
                 className="w-full border border-gray-300 rounded-md py-2 pl-10 focus:outline-none focus:border-blue-500"
                 placeholder="Enter your password"
+                required
+
               />
             </div>
           </div>
@@ -81,6 +85,8 @@ export default function Register(props) {
                 autoComplete="off"
                 className="w-full border border-gray-300 rounded-md py-2 pl-10 focus:outline-none focus:border-blue-500"
                 placeholder="Confirm your password"
+                required
+
               />
             </div>
           </div>
