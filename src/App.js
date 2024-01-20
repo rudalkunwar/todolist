@@ -24,7 +24,7 @@ class App extends Component {
     this.state = {
       email: null,
       password: null,
-      isAuthenticated: false,
+      isAuthenticated: true,
     };
   }
   componentDidMount() {
