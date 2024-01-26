@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { useNavigate } from 'react-router-dom';
 import Home from "./components/homepage/Home";
+import axios from "axios";
 import {
   BrowserRouter as Router,
   Routes,
@@ -22,14 +22,13 @@ class App extends Component {
       isAuthenticated: true,
     };
   }
-  errorValidation = (err) => {
-    toast.error("Validation: " + err, {
+  errorMessage = (err) => {
+    toast.error(err, {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
-      draggable: true,
       progress: undefined,
       theme: "colored",
     });
@@ -42,7 +41,6 @@ class App extends Component {
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
-      draggable: true,
       progress: undefined,
       theme: "colored",
     });
@@ -55,39 +53,47 @@ class App extends Component {
     let email = formdata.get("email");
     let password = formdata.get("password");
     let cpassword = formdata.get("cpassword");
+    if (password.length < 8) {
+      this.errorMessage("Password should have minimum 8 Characters");
+      return;
+    }
     if (password === cpassword) {
       try {
         this.setState({ username, email, password }, () => {
-          fetch("/register", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              username: this.state.username,
-              email: this.state.email,
-              password: this.state.password,
-            }),
-          })
-            .then((res) => res.json())
-            .then((data) => {
+          axios
+            .post(
+              "/register",
+              {
+                username: this.state.username,
+                email: this.state.email,
+                password: this.state.password,
+              },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            )
+            .then((res) => {
+              const data = res.data;
               console.log(data);
               if (data.user) {
-                window.location.href = '/dashboard'
+                window.location.href = "/dashboard";
               }
               if (data.username) {
-                this.errorValidation(data.username);
+                this.errorMessage(data.username);
               } else if (data.email) {
-                this.errorValidation(data.email);
-              }
-              else if (data.password) {
-                this.errorValidation(data.password);
+                this.errorMessage(data.email);
+              } else if (data.password) {
+                this.errorMessage(data.password);
               }
             })
-            .catch((err) => console.log(err));
+            .catch((err) =>
+              this.errorMessage("Cannot Register,Please try again later")
+            );
         });
       } catch (e) {
-        console.log(e);
+        this.errorMessage("Cannot Register User ,Please try again later");
       }
     } else {
       this.passwordNotMatch();

@@ -21,12 +21,6 @@ const errorHandler = (err) => {
       errors["email"] = "Email already registered";
     }
   }
-
-  if (err.message.includes("user validation failed")) {
-    Object.values(err.errors).forEach(({ properties }) => {
-      errors[properties.path] = properties.message;
-    });
-  }
   return errors;
 };
 
