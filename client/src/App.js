@@ -76,7 +76,6 @@ class App extends Component {
             )
             .then((res) => {
               const data = res.data;
-              console.log(data);
               if (data.user) {
                 window.location.href = "/dashboard";
               }
@@ -100,28 +99,45 @@ class App extends Component {
       return;
     }
   };
-  // userLogin = (event) => {
-  //   event.preventDefault();
-  //   const form = event.target;
-  //   const formdata = new FormData(event.target);
-  //   let email = formdata.get("email");
-  //   let password = formdata.get("password");
-  //   this.setState({ email, password }, () => {
-  //     const notify = () => {
-  //       toast.error("Firebase: " + error.message, {
-  //         position: "top-right",
-  //         autoClose: 2000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //         theme: "colored",
-  //       });
-  //     };
-  //     notify();
-  //   });
-  // };
+  userLogin = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const formdata = new FormData(event.target);
+    let email = formdata.get("email");
+    let password = formdata.get("password");
+    this.setState({ email, password }, () => {
+      try {
+        axios
+          .post(
+            "/login",
+            {
+              email: this.state.email,
+              password: this.state.password,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((response) => {
+            const data = response.data;
+            if (data.user) {
+              window.location.href = "/dashboard";
+            } else if (data.email) {
+              this.errorMessage(data.email);
+            } else if (data.password) {
+              this.errorMessage(data.password);
+            }
+          })
+          .catch((e) =>
+            this.errorMessage("Cannot Register User ,Please try again later")
+          );
+      } catch (e) {
+        this.errorMessage("Cannot Register User ,Please try again later");
+      }
+    });
+  };
   render() {
     return (
       <Router>
