@@ -22,6 +22,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      users:[],
       email: null,
       password: null,
       isAuthenticated: true,
@@ -37,6 +38,17 @@ class App extends Component {
       appId: "1:158404131532:web:a8aed9bc82473e3f99a069",
     };
     const app = initializeApp(firebaseConfig);
+
+    fetch('/backend',{
+      method:'get',
+    }).then(response=>response.json())
+    .then(data=>{
+      console.log(data); 
+      this.setState({
+        users:data.users,
+      });
+      console.log(this.state.users);
+    });
   }
   userRegistration = (event) => {
     event.preventDefault();
