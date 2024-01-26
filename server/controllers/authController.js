@@ -1,7 +1,6 @@
 const User = require("../models/user");
 const errorHandler = (err) => {
   const errors = { username: "", email: "", password: "" };
-
   if (err.message.includes("Incorrect Password")) {
     errors["password"] = "Incorrect Password";
   }
@@ -23,7 +22,6 @@ const errorHandler = (err) => {
   }
   return errors;
 };
-
 const user_register = async (req, res) => {
   const { username, email, password } = req.body;
   try {
@@ -31,13 +29,21 @@ const user_register = async (req, res) => {
     res.status(201).json({ user: user.username });
   } catch (err) {
     const errors = errorHandler(err);
-    console.log(errors);
     res.json(errors);
   }
 };
-// const user_login =  (req,res) =>{
-
-// }
+const user_login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.login(email);
+    res.status(201).json({ user: user.username });
+  } catch (err) {
+    const errors = errorHandler(err);
+    res.json(errors);
+    console.log(errors);
+  }
+};
 module.exports = {
   user_register,
+  user_login,
 };
