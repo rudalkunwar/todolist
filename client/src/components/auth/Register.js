@@ -16,6 +16,29 @@ export default function Register(props) {
           Get started with TodoFlow.
         </h2>
         <form onSubmit={props.register} name="register">
+        <div className="mb-4">
+            <label
+              htmlFor="Username"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Username
+            </label>
+            <div className="relative">
+              <FontAwesomeIcon
+                icon={faUser}
+                className="absolute top-3 left-3 text-gray-500"
+              />
+              <input
+                type="Username"
+                id="Username"
+                name="username"
+                autoComplete="off"
+                className="w-full border border-gray-300 rounded-md py-2 pl-10 focus:outline-none focus:border-blue-500"
+                placeholder="Enter your Username"
+                required
+              />
+            </div>
+          </div>
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -36,7 +59,6 @@ export default function Register(props) {
                 className="w-full border border-gray-300 rounded-md py-2 pl-10 focus:outline-none focus:border-blue-500"
                 placeholder="Enter your email"
                 required
-
               />
             </div>
           </div>
@@ -61,7 +83,6 @@ export default function Register(props) {
                 className="w-full border border-gray-300 rounded-md py-2 pl-10 focus:outline-none focus:border-blue-500"
                 placeholder="Enter your password"
                 required
-
               />
             </div>
           </div>
@@ -86,7 +107,6 @@ export default function Register(props) {
                 className="w-full border border-gray-300 rounded-md py-2 pl-10 focus:outline-none focus:border-blue-500"
                 placeholder="Confirm your password"
                 required
-
               />
             </div>
           </div>
