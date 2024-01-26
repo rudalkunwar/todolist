@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { useNavigate } from 'react-router-dom';
 import Home from "./components/homepage/Home";
 import {
   BrowserRouter as Router,
@@ -72,6 +73,7 @@ class App extends Component {
             .then((data) => {
               console.log(data);
               if (data.user) {
+                window.location.href = '/dashboard'
               }
               if (data.username) {
                 this.errorValidation(data.username);
