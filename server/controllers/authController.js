@@ -35,12 +35,11 @@ const user_register = async (req, res) => {
 const user_login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.login(email);
+    const user = await User.login(email,password);
     res.status(201).json({ user: user.username });
   } catch (err) {
     const errors = errorHandler(err);
     res.json(errors);
-    console.log(errors);
   }
 };
 module.exports = {
