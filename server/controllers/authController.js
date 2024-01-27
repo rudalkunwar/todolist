@@ -5,7 +5,7 @@ const errorHandler = (err) => {
     errors["password"] = "Incorrect Password";
   }
 
-  if (err.message.includes("User does not exist")) {
+  if (err.message.includes("User doesnot exists")) {
     errors["email"] = "User does not exist";
   }
 
@@ -35,7 +35,7 @@ const user_register = async (req, res) => {
 const user_login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.login(email,password);
+    const user = await User.login(email, password);
     res.status(201).json({ user: user.username });
   } catch (err) {
     const errors = errorHandler(err);
