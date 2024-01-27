@@ -2,6 +2,7 @@ const express = require("express");
 const mongose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
 const bodyParser = require('body-parser');
+const {requireAuth} = require('./middlewares/authMiddleware');
 //create the instance of our app
 const app = express();
 
@@ -21,4 +22,7 @@ app.get("/backend", (req, res) => {
   res.json({ message: "connected to the server" });
 });
 app.use(bodyParser.json());
+app.get('/dashboard',requireAuth,(req,res)=>{
+  res.json();
+})
 app.use(authRoutes);
