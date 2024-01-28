@@ -25,7 +25,7 @@ const errorHandler = (err) => {
 };
 const day = 60 * 60 * 24;
 const createToken = (id) =>{
- return jwt.sign({id},'mySecretKeyXoXo',{expiresIn:maxAge*3});
+ return jwt.sign({id},'mySecretKeyXoXo',{expiresIn:day*3});
 }
 
 const user_register = async (req, res) => {
@@ -52,10 +52,8 @@ const user_login = async (req, res) => {
       maxAge:day*3*1000,
       httpOnly:true
     });
-    console.log(user._id);
-    res.status(201).json({token:cookie.auth, user: user.username });
+    res.status(201).json({user: user.username });
   } catch (err) {
-    console.log(err);
     const errors = errorHandler(err);
     res.json(errors);
   }
