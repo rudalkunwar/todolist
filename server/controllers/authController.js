@@ -14,7 +14,7 @@ const errorHandler = (err) => {
     const duplicateKey = Object.keys(err.keyPattern)[0];
 
     if (duplicateKey === "username") {
-      errors["username"] = "User already exists";
+      errors["username"] = "Username already exists";
     }
 
     if (duplicateKey === "email") {
