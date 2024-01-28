@@ -25,10 +25,10 @@ export default function Home() {
                 Get started
               </Link>
               <Link
-                to="/home"
+                to="/dashboard"
                 className="relative inline-block px-8 py-4 border border-green-500 text-green-500 rounded-full font-semibold text-lg hover:bg-green-500 hover:text-white transition duration-300"
               >
-                Learn more
+               Dashboard
               </Link>
             </div>
             {/* Add other sections or components as needed */}
