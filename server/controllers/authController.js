@@ -47,12 +47,15 @@ const user_login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.login(email, password);
+    const token = createToken(user._id);
     res.cookie('auth',token,{
       maxAge:day*3*1000,
       httpOnly:true
     });
-    res.status(201).json({ user: user.username });
+    console.log(user._id);
+    res.status(201).json({token:cookie.auth, user: user.username });
   } catch (err) {
+    console.log(err);
     const errors = errorHandler(err);
     res.json(errors);
   }

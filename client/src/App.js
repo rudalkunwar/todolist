@@ -123,6 +123,7 @@ class App extends Component {
           .then((response) => {
             const data = response.data;
             if (data.user) {
+              console.log(data.user);
               window.location.href = "/dashboard";
             } else if (data.email) {
               this.errorMessage(data.email);
