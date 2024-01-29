@@ -6,7 +6,8 @@ import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import Navbar from "./../homepage/Navbar";
 import { Link } from "react-router-dom";
-
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import "@fortawesome/fontawesome-svg-core/styles.css"; // Import the Font Awesome CSS
 export default function Register(props) {
   return (
     <>
@@ -16,7 +17,7 @@ export default function Register(props) {
           Get started with TodoFlow.
         </h2>
         <form onSubmit={props.register} name="register">
-        <div className="mb-4">
+          <div className="mb-4">
             <label
               htmlFor="Username"
               className="block text-gray-700 text-sm font-bold mb-2"
@@ -32,7 +33,6 @@ export default function Register(props) {
                 type="Username"
                 id="Username"
                 name="username"
-                autoComplete="off"
                 className="w-full border border-gray-300 rounded-md py-2 pl-10 focus:outline-none focus:border-blue-500"
                 placeholder="Enter your Username"
                 required
@@ -55,7 +55,6 @@ export default function Register(props) {
                 type="email"
                 id="email"
                 name="email"
-                autoComplete="off"
                 className="w-full border border-gray-300 rounded-md py-2 pl-10 focus:outline-none focus:border-blue-500"
                 placeholder="Enter your email"
                 required
@@ -79,7 +78,6 @@ export default function Register(props) {
                 type="password"
                 id="password"
                 name="password"
-                autoComplete="off"
                 className="w-full border border-gray-300 rounded-md py-2 pl-10 focus:outline-none focus:border-blue-500"
                 placeholder="Enter your password"
                 required
@@ -103,7 +101,6 @@ export default function Register(props) {
                 type="password"
                 id="cpassword"
                 name="cpassword"
-                autoComplete="off"
                 className="w-full border border-gray-300 rounded-md py-2 pl-10 focus:outline-none focus:border-blue-500"
                 placeholder="Confirm your password"
                 required
@@ -115,6 +112,7 @@ export default function Register(props) {
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
           >
+            {props.isLoading ? <FontAwesomeIcon icon={faSpinner} spin /> : null}{" "}
             Register
           </button>
         </form>

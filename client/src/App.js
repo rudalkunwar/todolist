@@ -28,6 +28,7 @@ class App extends Component {
     };
   }
   errorMessage = (err) => {
+    this.setState({ isLoading: false });
     toast.error(err, {
       position: "top-right",
       autoClose: 3000,
@@ -39,6 +40,7 @@ class App extends Component {
     });
   };
   passwordNotMatch = () => {
+    this.setState({ isLoading: false });
     toast.warn("Password doesnot match.", {
       position: "top-right",
       autoClose: 3000,
@@ -51,7 +53,7 @@ class App extends Component {
   };
   userRegistration = (event) => {
     event.preventDefault();
-    const form = event.target;
+    this.setState({ isLoading: true });
     const formdata = new FormData(event.target);
     let username = formdata.get("username");
     let email = formdata.get("email");
@@ -63,40 +65,39 @@ class App extends Component {
     }
     if (password === cpassword) {
       try {
-        this.setState({ username, email, password }, () => {
-          axios
-            .post(
-              "/register",
-              {
-                username: this.state.username,
-                email: this.state.email,
-                password: this.state.password,
+        this.setState({ username, email, password }, async () => {
+          const response = await axios.post(
+            "/register",
+            {
+              username: this.state.username,
+              email: this.state.email,
+              password: this.state.password,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
               },
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              }
-            )
-            .then((res) => {
-              const data = res.data;
-              if (data.user) {
-                window.location.href = "/dashboard";
-              }
-              if (data.username) {
-                this.errorMessage(data.username);
-              } else if (data.email) {
-                this.errorMessage(data.email);
-              } else if (data.password) {
-                this.errorMessage(data.password);
-              }
-            })
-            .catch((err) =>
-              this.errorMessage("Cannot Register,Please try again later")
-            );
+            }
+          );
+          if (response) {
+            const data = response.data;
+            if (data.user) {
+              console.log(data.user);
+            }
+            if (data.email) {
+              this.errorMessage(data.email);
+            }
+            if (data.username) {
+              this.errorMessage(data.username);
+            } else if (data.password) {
+              this.errorMessage(data.password);
+            }
+          } else {
+            this.errorMessage("Cannot Register User ,Please try again later");
+          }
         });
       } catch (e) {
-        this.errorMessage("Cannot Login User ,Server Down!!");
+        this.errorMessage("Cannot Register User ,Server Down!!");
       }
     } else {
       this.passwordNotMatch();
@@ -105,7 +106,6 @@ class App extends Component {
   };
   userLogin = (event) => {
     this.setState({ isLoading: true });
-    const form = event.target;
     const formdata = new FormData(event.target);
     let email = formdata.get("email");
     let password = formdata.get("password");
@@ -123,9 +123,7 @@ class App extends Component {
             },
           }
         );
-
         if (response) {
-          this.setState({ isLoading: false });
           const data = response.data;
           if (data.user) {
             console.log(data.user);
@@ -139,7 +137,6 @@ class App extends Component {
           this.errorMessage("Cannot Login User ,Please try again later");
         }
       } catch (e) {
-        this.setState({ isLoading: false });
         this.errorMessage("Cannot Login User ,Server Down!!");
       }
     });
@@ -155,7 +152,12 @@ class App extends Component {
               <Route path="/home" element={<Home />} />
               <Route
                 path="/register"
-                element={<Register register={this.userRegistration} />}
+                element={
+                  <Register
+                    register={this.userRegistration}
+                    isLoading={this.state.isLoading}
+                  />
+                }
               />
               <Route
                 path="/login"
