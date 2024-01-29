@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import Home from "./components/homepage/Home";
-import axios from "axios";
 import {
   BrowserRouter as Router,
   Routes,
@@ -88,7 +86,7 @@ class App extends Component {
               }
             })
             .catch((err) =>
-              this.errorMessage("Cannot get the response")
+              this.errorMessage("Cannot Register,Please try again later")
             );
         });
       } catch (e) {
@@ -109,7 +107,7 @@ class App extends Component {
       try {
         axios
           .post(
-            "http://localhost:5000/login",
+            "/login",
             {
               email: this.state.email,
               password: this.state.password,
@@ -132,7 +130,7 @@ class App extends Component {
             }
           })
           .catch((e) =>
-          this.errorMessage("Cannot get the response")
+            this.errorMessage("Cannot Register User ,Please try again later")
           );
       } catch (e) {
         this.errorMessage("Cannot Register User ,Please try again later");
@@ -141,32 +139,16 @@ class App extends Component {
   };
   render() {
     return (
-      <Router>
-        <div>
-          <ToastContainer />
-          <Routes>
+      <>
+        <Router>
+          <div>
+            <Routes>
             <Route path="/home" element={<Home />} />
-            <Route
-              path="/register"
-              element={<Register register={this.userRegistration} />}
-            />
-            <Route path="/login" element={<Login login={this.userLogin} />} />
-            <Route
-              path="/dashboard"
-              element={
-                this.state.isAuthenticated ? (
-                  <Dashboard />
-                ) : (
-                  <Navigate to="/login" />
-                )
-              }
-            />
-            <Route path="/" element={<Home />} />
-          </Routes>
-        </div>
-      </Router>
+              <Route path="/" element={<Home />} />
+            </Routes>
+          </div>
+        </Router>
+      </>
     );
   }
 }
-
-export default App;
