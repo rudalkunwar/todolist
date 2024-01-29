@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import {
   BrowserRouter as Router,
   Routes,
@@ -8,8 +9,13 @@ import {
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
+import Home from "./components/homepage/Home";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import "@fortawesome/fontawesome-svg-core/styles.css"; // Import the Font Awesome CSS
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +24,7 @@ class App extends Component {
       email: null,
       password: null,
       isAuthenticated: true,
+      isLoading: false,
     };
   }
   errorMessage = (err) => {
@@ -31,7 +38,6 @@ class App extends Component {
       theme: "colored",
     });
   };
-
   passwordNotMatch = () => {
     toast.warn("Password doesnot match.", {
       position: "top-right",
@@ -90,7 +96,7 @@ class App extends Component {
             );
         });
       } catch (e) {
-        this.errorMessage("Cannot Register User ,Please try again later");
+        this.errorMessage("Cannot Login User ,Server Down!!");
       }
     } else {
       this.passwordNotMatch();
@@ -98,52 +104,78 @@ class App extends Component {
     }
   };
   userLogin = (event) => {
-    event.preventDefault();
+    this.setState({ isLoading: true });
     const form = event.target;
     const formdata = new FormData(event.target);
     let email = formdata.get("email");
     let password = formdata.get("password");
-    this.setState({ email, password }, () => {
+    this.setState({ email, password }, async () => {
       try {
-        axios
-          .post(
-            "/login",
-            {
-              email: this.state.email,
-              password: this.state.password,
+        const response = await axios.post(
+          "/login",
+          {
+            email: this.state.email,
+            password: this.state.password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
             },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          )
-          .then((response) => {
-            const data = response.data;
-            if (data.user) {
-              console.log(data.user);
-              window.location.href = "/dashboard";
-            } else if (data.email) {
-              this.errorMessage(data.email);
-            } else if (data.password) {
-              this.errorMessage(data.password);
-            }
-          })
-          .catch((e) =>
-            this.errorMessage("Cannot Register User ,Please try again later")
-          );
+          }
+        );
+
+        if (response) {
+          this.setState({ isLoading: false });
+          const data = response.data;
+          if (data.user) {
+            console.log(data.user);
+          }
+          if (data.email) {
+            this.errorMessage(data.email);
+          } else if (data.password) {
+            this.errorMessage(data.password);
+          }
+        } else {
+          this.errorMessage("Cannot Login User ,Please try again later");
+        }
       } catch (e) {
-        this.errorMessage("Cannot Register User ,Please try again later");
+        this.setState({ isLoading: false });
+        this.errorMessage("Cannot Login User ,Server Down!!");
       }
     });
+    event.preventDefault();
   };
   render() {
     return (
       <>
+        <ToastContainer />
         <Router>
           <div>
             <Routes>
-            <Route path="/home" element={<Home />} />
+              <Route path="/home" element={<Home />} />
+              <Route
+                path="/register"
+                element={<Register register={this.userRegistration} />}
+              />
+              <Route
+                path="/login"
+                element={
+                  <Login
+                    login={this.userLogin}
+                    isLoading={this.state.isLoading}
+                  />
+                }
+              />
+              <Route
+                path="/dashboard"
+                element={
+                  this.state.isAuthenticated ? (
+                    <Dashboard />
+                  ) : (
+                    <Navigate to="/login" />
+                  )
+                }
+              />
               <Route path="/" element={<Home />} />
             </Routes>
           </div>
@@ -152,3 +184,5 @@ class App extends Component {
     );
   }
 }
+
+export default App;

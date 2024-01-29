@@ -6,7 +6,8 @@ import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import Navbar from "./../homepage/Navbar";
 import { Link } from "react-router-dom";
-
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import "@fortawesome/fontawesome-svg-core/styles.css"; // Import the Font Awesome CSS
 export default function Login(props) {
   return (
     <>
@@ -33,11 +34,9 @@ export default function Login(props) {
                 type="email"
                 id="email"
                 name="email"
-                autoComplete="off"
                 className="w-full border border-gray-300 rounded-md py-2 pl-10 focus:outline-none focus:border-blue-500"
                 placeholder="Enter your email"
                 required
-
               />
             </div>
           </div>
@@ -65,12 +64,13 @@ export default function Login(props) {
               />
             </div>
           </div>
-
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
           >
-            Sign In
+            {props.isLoading?<FontAwesomeIcon icon={faSpinner} spin />:null}
+
+           {" "}Sign In
           </button>
         </form>
 
