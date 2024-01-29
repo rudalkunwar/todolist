@@ -88,7 +88,7 @@ class App extends Component {
               }
             })
             .catch((err) =>
-              this.errorMessage("Cannot Register,Please try again later")
+              this.errorMessage("Cannot get the response")
             );
         });
       } catch (e) {
@@ -109,7 +109,7 @@ class App extends Component {
       try {
         axios
           .post(
-            "/login",
+            "http://localhost:5000/login",
             {
               email: this.state.email,
               password: this.state.password,
@@ -132,7 +132,7 @@ class App extends Component {
             }
           })
           .catch((e) =>
-            this.errorMessage("Cannot Register User ,Please try again later")
+          this.errorMessage("Cannot get the response")
           );
       } catch (e) {
         this.errorMessage("Cannot Register User ,Please try again later");
