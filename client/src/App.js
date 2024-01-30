@@ -12,8 +12,6 @@ import Dashboard from "./components/dashboard/Dashboard";
 import Home from "./components/homepage/Home";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css"; // Import the Font Awesome CSS
 
 class App extends Component {
