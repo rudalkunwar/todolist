@@ -112,7 +112,7 @@ class App extends Component {
     this.setState({ email, password }, async () => {
       try {
         const response = await axios.post(
-          "/login",
+          "http://localhost:5000/login",
           {
             email: this.state.email,
             password: this.state.password,
