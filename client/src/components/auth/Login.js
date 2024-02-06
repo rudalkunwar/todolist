@@ -1,23 +1,78 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import {
+  faLock,
+  faEnvelope,
+  faSpinner,
+} from "@fortawesome/free-solid-svg-icons";
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+
 import Navbar from "./../homepage/Navbar";
-import { Link } from "react-router-dom";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import "@fortawesome/fontawesome-svg-core/styles.css"; // Import the Font Awesome CSS
-export default function Login(props) {
+import { Link, useNavigate } from "react-router-dom";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "../../api/axios";
+import { useDispatch } from "react-redux";
+import { signin } from "../../authSlice";
+export default function Login() {
+  const [isLoading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const login = (event) => {
+    setLoading(true);
+    const formdata = new FormData(event.target);
+    let email = formdata.get("email");
+    let password = formdata.get("password");
+    try {
+      axios
+        .post("/login", { email, password })
+        .then((response) => {
+          const data = response.data;
+          if (data.user) {
+            dispatch(signin());
+            navigate("/dashboard");
+          }
+          if (data.email) {
+            errorMessage(data.email);
+            setLoading(false);
+          } else if (data.password) {
+            errorMessage(data.password);
+            setLoading(false);
+          }
+        })
+        .catch((e) => {
+          errorMessage(e + "Cannot Login User ,Please try again later");
+          setLoading(false);
+        });
+    } catch (e) {
+      errorMessage(e + "Cannot Login User ,Server Down!!");
+      setLoading(false);
+    }
+    event.preventDefault();
+  };
+  const errorMessage = (err) => {
+    setLoading(true);
+    toast.error(err, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
   return (
     <>
       <Navbar />
+      <ToastContainer />
       <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
         <h2 className="text-2xl font-bold mb-6 text-center">
           Get started with TodoFlow.
         </h2>
-        <form onSubmit={props.login}>
-          {/* <div className={props.errtype?"text-red-500":"text-green-500"}>{props.msg}</div> */}
+        <form onSubmit={login} method="POST">
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -68,9 +123,8 @@ export default function Login(props) {
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
           >
-            {props.isLoading?<FontAwesomeIcon icon={faSpinner} spin />:null}
-
-           {" "}Sign In
+            {isLoading ? <FontAwesomeIcon icon={faSpinner} spin /> : null} Sign
+            In
           </button>
         </form>
 

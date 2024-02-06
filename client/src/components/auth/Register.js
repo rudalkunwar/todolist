@@ -7,8 +7,88 @@ import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import Navbar from "./../homepage/Navbar";
 import { Link } from "react-router-dom";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import "@fortawesome/fontawesome-svg-core/styles.css"; // Import the Font Awesome CSS
-export default function Register(props) {
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "../../api/axios";
+export default function Register() {
+  const [isLoading, setLoading] = useState(false);
+  const register = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    const formdata = new FormData(event.target);
+    let username = formdata.get("username");
+    let email = formdata.get("email");
+    let password = formdata.get("password");
+    let cpassword = formdata.get("cpassword");
+    if (password.length < 8) {
+      errorMessage("Password should have minimum 8 Characters");
+      return;
+    }
+    if (password === cpassword) {
+      try {
+        const response = await axios.post(
+          "/register",
+          {
+            username,
+            email,
+            password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response) {
+          const data = response.data;
+          if (data.user) {
+            console.log(data.user);
+          }
+          if (data.email) {
+            errorMessage(data.email);
+          }
+          if (data.username) {
+            errorMessage(data.username);
+          } else if (data.password) {
+            errorMessage(data.password);
+          }
+        } else {
+          errorMessage("Cannot Register User ,Please try again later");
+        }
+      } catch (e) {
+        errorMessage("Cannot Register User ,Server Down!!");
+      }
+    } else {
+      passwordNotMatch();
+      return;
+    }
+  };
+ const  errorMessage = (err) => {
+    setLoading(false);
+    toast.error(err, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+ const  passwordNotMatch = () => {
+    setLoading(false);
+    toast.warn("Password doesnot match.", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
   return (
     <>
       <Navbar />
@@ -16,7 +96,7 @@ export default function Register(props) {
         <h2 className="text-2xl font-bold mb-6 text-center">
           Get started with TodoFlow.
         </h2>
-        <form onSubmit={props.register} name="register">
+        <form onSubmit={register} name="register" method="POST">
           <div className="mb-4">
             <label
               htmlFor="Username"
@@ -112,7 +192,7 @@ export default function Register(props) {
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
           >
-            {props.isLoading ? <FontAwesomeIcon icon={faSpinner} spin /> : null}{" "}
+            {isLoading ? <FontAwesomeIcon icon={faSpinner} spin /> : null}{" "}
             Register
           </button>
         </form>

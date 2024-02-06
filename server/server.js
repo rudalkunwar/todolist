@@ -23,7 +23,7 @@ mongose
   .catch((err) => console.log("Error connecting to Databasae"));
   
 //now lets make our routes
-app.get("/backend", (req, res) => {
+app.get("/", (req, res) => {
   res.json({ message: "connected to the server" });
 });
 app.use(bodyParser.json());

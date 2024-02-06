@@ -3,8 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { faTasks } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../authSlice";
 
 const Taskbar = () => {
+  const dispatch = useDispatch();
   return (
     <nav className="bg-gray-900 text-white p-4 flex justify-between items-center">
       <div className="text-2xl font-bold">
@@ -21,7 +24,7 @@ const Taskbar = () => {
           </button>
         </div>
         <Link >
-          <button className="mr-4 py-2 px-4 bg-primary hover:bg-opacity-80 text-white rounded-lg">
+          <button onClick={()=>dispatch(logout())} className="mr-4 py-2 px-4 bg-primary hover:bg-opacity-80 text-white rounded-lg">
             <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
             Logout
           </button>
