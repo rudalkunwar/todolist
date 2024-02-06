@@ -5,15 +5,19 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import Navbar from "./../homepage/Navbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "../../api/axios";
+import { isAuth } from "../../authSlice";
+import { UseDispatch, useDispatch } from "react-redux";
 export default function Register() {
   const [isLoading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const register = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -44,7 +48,8 @@ export default function Register() {
         if (response) {
           const data = response.data;
           if (data.user) {
-            console.log(data.user);
+            dispatch(isAuth());
+            navigate("/dashboard");
           }
           if (data.email) {
             errorMessage(data.email);
@@ -65,7 +70,7 @@ export default function Register() {
       return;
     }
   };
- const  errorMessage = (err) => {
+  const errorMessage = (err) => {
     setLoading(false);
     toast.error(err, {
       position: "top-right",
@@ -77,7 +82,7 @@ export default function Register() {
       theme: "colored",
     });
   };
- const  passwordNotMatch = () => {
+  const passwordNotMatch = () => {
     setLoading(false);
     toast.warn("Password doesnot match.", {
       position: "top-right",

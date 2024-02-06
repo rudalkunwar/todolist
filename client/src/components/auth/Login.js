@@ -5,7 +5,7 @@ import {
   faEnvelope,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 import Navbar from "./../homepage/Navbar";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "../../api/axios";
 import { useDispatch } from "react-redux";
-import { signin } from "../../authSlice";
+import { isAuth } from "../../authSlice";
 export default function Login() {
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -31,29 +31,25 @@ export default function Login() {
         .then((response) => {
           const data = response.data;
           if (data.user) {
-            dispatch(signin());
+            dispatch(isAuth());
             navigate("/dashboard");
           }
           if (data.email) {
             errorMessage(data.email);
-            setLoading(false);
           } else if (data.password) {
             errorMessage(data.password);
-            setLoading(false);
           }
         })
         .catch((e) => {
           errorMessage(e + "Cannot Login User ,Please try again later");
-          setLoading(false);
         });
     } catch (e) {
       errorMessage(e + "Cannot Login User ,Server Down!!");
-      setLoading(false);
     }
     event.preventDefault();
   };
   const errorMessage = (err) => {
-    setLoading(true);
+    setLoading(false);
     toast.error(err, {
       position: "top-right",
       autoClose: 3000,
