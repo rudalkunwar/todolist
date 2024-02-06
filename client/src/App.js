@@ -13,6 +13,7 @@ import Home from "./components/homepage/Home";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "@fortawesome/fontawesome-svg-core/styles.css"; // Import the Font Awesome CSS
+import { Provider } from "react-redux";
 
 class App extends Component {
   constructor(props) {
@@ -146,38 +147,40 @@ class App extends Component {
         <ToastContainer />
         <Router>
           <div>
-            <Routes>
-              <Route path="/home" element={<Home />} />
-              <Route
-                path="/register"
-                element={
-                  <Register
-                    register={this.userRegistration}
-                    isLoading={this.state.isLoading}
-                  />
-                }
-              />
-              <Route
-                path="/login"
-                element={
-                  <Login
-                    login={this.userLogin}
-                    isLoading={this.state.isLoading}
-                  />
-                }
-              />
-              <Route
-                path="/dashboard"
-                element={
-                  this.state.isAuthenticated ? (
-                    <Dashboard />
-                  ) : (
-                    <Navigate to="/login" />
-                  )
-                }
-              />
-              <Route path="/" element={<Home />} />
-            </Routes>
+            <Provider>
+              <Routes>
+                <Route path="/home" element={<Home />} />
+                <Route
+                  path="/register"
+                  element={
+                    <Register
+                      register={this.userRegistration}
+                      isLoading={this.state.isLoading}
+                    />
+                  }
+                />
+                <Route
+                  path="/login"
+                  element={
+                    <Login
+                      login={this.userLogin}
+                      isLoading={this.state.isLoading}
+                    />
+                  }
+                />
+                <Route
+                  path="/dashboard"
+                  element={
+                    this.state.isAuthenticated ? (
+                      <Dashboard />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
+                />
+                <Route path="/" element={<Home />} />
+              </Routes>
+            </Provider>
           </div>
         </Router>
       </>
