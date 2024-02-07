@@ -37,7 +37,7 @@ const user_register = async (req, res) => {
       maxAge: day * 3 * 1000,
       httpOnly: true,
     });
-    res.status(201).json({ user: user.username });
+    res.status(201).json({ user: user.username, acessToken: token });
   } catch (err) {
     const errors = errorHandler(err);
     res.json(errors);
@@ -52,14 +52,26 @@ const user_login = async (req, res) => {
       maxAge: day * 3 * 1000,
       httpOnly: true,
     });
-    console.log(res);
-    res.status(201).json({ user: user.username });
+    res.status(201).json({ user: user.username, acessToken: token });
   } catch (err) {
     const errors = errorHandler(err);
     res.json(errors);
   }
 };
+const user_logout = (req, res) => {
+  const { userToken } = req.body;
+  if (userToken) {
+    res.cookie("auth", userToken, {
+      maxAge: 100,
+    });
+    console.log("user logout");
+    res.status(200).json({message:'user logout'});
+  } else {
+    console.log("error to logout");
+  }
+};
 module.exports = {
   user_register,
   user_login,
+  user_logout,
 };

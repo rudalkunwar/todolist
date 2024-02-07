@@ -10,6 +10,7 @@ const authSlice = createSlice({
     },
     logout(state) {
       state.value = false;
+      localStorage.removeItem("acessToken");
     },
   },
 });

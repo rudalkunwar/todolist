@@ -1,12 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt, faTasks } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../authSlice";
-
+import axios from "../../api/axios";
 const Taskbar = () => {
+  const [user_token, setToken] = useState("");
   const dispatch = useDispatch();
+  const user_logout = async () => {
+    try {
+      const res = await axios.post("/logout", {
+        userToken: user_token,
+      });
+      if (res) {
+        dispatch(logout());
+      } else {
+        console.log("error logout");
+      }
+    } catch (e) {
+      console.log(e + "error to logout");
+    }
+  };
+  useEffect(() => {
+    const token = localStorage.getItem("acessToken");
+    if (token) {
+      setToken(token);
+    }
+  }, [user_token]);
   return (
     <nav className="bg-gray-900 text-white p-4 flex justify-between items-center">
       <div className="text-2xl font-bold">
@@ -24,7 +45,7 @@ const Taskbar = () => {
         </div>
         <Link>
           <button
-            onClick={() => dispatch(logout())}
+            onClick={user_logout}
             className="mr-4 py-2 px-4 bg-primary hover:bg-opacity-80 text-white rounded-lg"
           >
             <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />

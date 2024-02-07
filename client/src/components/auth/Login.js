@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLock,
@@ -6,7 +6,6 @@ import {
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-
 import Navbar from "./../homepage/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -19,7 +18,9 @@ export default function Login() {
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // useEffect(() => {
 
+  // }, []);
   const login = (event) => {
     setLoading(true);
     const formdata = new FormData(event.target);
@@ -32,6 +33,8 @@ export default function Login() {
           const data = response.data;
           if (data.user) {
             dispatch(isAuth());
+            const token = data.acessToken;
+            localStorage.setItem("acessToken", token);
             navigate("/dashboard");
           }
           if (data.email) {

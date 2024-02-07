@@ -51,6 +51,8 @@ export default function Register() {
           const data = response.data;
           if (data.user) {
             dispatch(isAuth());
+            const token = data.acessToken;
+            localStorage.setItem("acessToken", token);
             navigate("/dashboard");
           }
           if (data.email) {
