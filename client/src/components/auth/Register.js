@@ -1,19 +1,21 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUser,
+  faEnvelope,
+  faLock,
+  faSpinner,
+} from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import Navbar from "./../homepage/Navbar";
 import { Link, useNavigate } from "react-router-dom";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "../../api/axios";
 import { isAuth } from "../../authSlice";
-import { UseDispatch, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 export default function Register() {
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -96,6 +98,7 @@ export default function Register() {
   };
   return (
     <>
+      <ToastContainer />
       <Navbar />
       <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
         <h2 className="text-2xl font-bold mb-6 text-center">
