@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
-import Dashboard from "./components/dashboard/Dashboard";
 import Home from "./components/homepage/Home";
 import { useSelector, useDispatch } from "react-redux";
 import { isAuth } from "./authSlice";
+import Todolist from "./components/todotask/Todolist";
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.value);
   const dispatch = useDispatch();
@@ -26,8 +26,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route
-            path="/dashboard"
-            element={isAuthenticated ? <Dashboard /> : <Login />}
+            path="/todolits"
+            element={isAuthenticated ? <Todolist /> : <Login />}
           />
           <Route path="/" element={<Home />} />
         </Routes>
