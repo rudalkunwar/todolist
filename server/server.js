@@ -1,6 +1,7 @@
 const express = require("express");
 const mongose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
+const taskRoutes = require("./routes/taskRoutes");
 const bodyParser = require("body-parser");
 const { requireAuth } = require("./middlewares/authMiddleware");
 //create the instance of our app
@@ -31,3 +32,4 @@ app.get("/dashboard", requireAuth, (req, res) => {
   res.json();
 });
 app.use(authRoutes);
+app.use(taskRoutes);

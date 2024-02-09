@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import {useSelector } from "react-redux";
 
-export default function Home() {
+export default function Home({ isAuth }) {
+  const user = useSelector((state) => state.auth.user);
   return (
     <>
       <Navbar />
@@ -26,16 +28,16 @@ export default function Home() {
                 Get started
               </Link>
               <Link
-                to="/todolist"
+                to={isAuth && user ? `/todolist/${user}` : `/login`}
                 className="relative inline-block px-8 py-4 border border-green-500 text-green-500 rounded-full font-semibold text-lg hover:bg-green-500 hover:text-white transition duration-300"
               >
-               Todolists
+                Todolists
               </Link>
             </div>
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

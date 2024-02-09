@@ -27,10 +27,10 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route
-            path="/todolist"
+            path="/todolist/:username"
             element={isAuthenticated ? <Todolist /> : <Login />}
           />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home isAuth = {isAuthenticated} />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
       </div>
