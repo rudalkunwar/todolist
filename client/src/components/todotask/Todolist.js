@@ -7,7 +7,7 @@ function Todolist() {
   return (
     <div>
     <Taskbar/>
-    <AddTask/>
+    {/* <AddTask/> */}
     <Tasks/>
     </div>
   )

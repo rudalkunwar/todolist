@@ -1,0 +1,10 @@
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernet:
+    eth0:
+      dhcp: no
+      addresses: 100.10.10.4
+      gateway: 100.10.10.1
+      nameserver:
+        addresses: [1.1.1.1,8.8.8.8]
