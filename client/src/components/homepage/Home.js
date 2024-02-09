@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 export default function Home() {
   return (
@@ -25,17 +26,16 @@ export default function Home() {
                 Get started
               </Link>
               <Link
-                to="/todolits"
+                to="/todolist"
                 className="relative inline-block px-8 py-4 border border-green-500 text-green-500 rounded-full font-semibold text-lg hover:bg-green-500 hover:text-white transition duration-300"
               >
                Todolists
               </Link>
             </div>
-            {/* Add other sections or components as needed */}
           </div>
         </div>
-        {/* Footer - Add your footer component here */}
       </div>
+      <Footer/>
     </>
   );
 }

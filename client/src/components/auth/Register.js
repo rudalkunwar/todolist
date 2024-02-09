@@ -53,7 +53,7 @@ export default function Register() {
             dispatch(isAuth());
             const token = data.acessToken;
             localStorage.setItem("acessToken", token);
-            navigate("/dashboard");
+            navigate("/todolist");
           }
           if (data.email) {
             errorMessage(data.email);
