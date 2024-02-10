@@ -14,7 +14,7 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "../../api/axios";
-import { isAuth ,setToken,setUser } from "../../authSlice";
+import { isAuth, setToken, setUser } from "../../authSlice";
 import { useDispatch } from "react-redux";
 export default function Register() {
   const [isLoading, setLoading] = useState(false);
@@ -34,19 +34,11 @@ export default function Register() {
     }
     if (password === cpassword) {
       try {
-        const response = await axios.post(
-          "/register",
-          {
-            username,
-            email,
-            password,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await axios.post("/register", {
+          username,
+          email,
+          password,
+        });
         if (response) {
           const data = response.data;
           if (data.user) {
@@ -54,7 +46,7 @@ export default function Register() {
             const user = data.user;
             dispatch(isAuth());
             dispatch(setUser(user));
-            dispatch(setToken(token));
+            localStorage.setItem("accessToken", token);
             navigate(`/todolist/${user}`);
           }
           if (data.email) {

@@ -7,11 +7,11 @@ import { logout } from "../../authSlice";
 import axios from "../../api/axios";
 const Taskbar = () => {
   const dispatch = useDispatch();
-  const user_token = useSelector((state) => state.accessToken.value);
+  const token = localStorage.getItem("accessToken");
   const user_logout = async () => {
     try {
       const res = await axios.post("/logout", {
-        userToken: user_token,
+        userToken: token,
       });
       if (res) {
         dispatch(logout());

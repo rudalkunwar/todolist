@@ -10,6 +10,7 @@ import Page404 from "./components/404page/Page404";
 
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.value);
+  const token = localStorage.getItem('accessToken');
   return (
     <Router>
       <div>
@@ -19,7 +20,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route
             path="/todolist/:username"
-            element={isAuthenticated ? <Todolist /> : <Login />}
+            element={isAuthenticated && token ? <Todolist /> : <Login />}
           />
           <Route
             path="/"

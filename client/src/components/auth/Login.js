@@ -36,7 +36,7 @@ export default function Login() {
             const token = data.accessToken;
             dispatch(isAuth());
             dispatch(setUser(user));
-            dispatch(setToken(token));
+            localStorage.setItem('accessToken',token);
             navigate(`/todolist/${user}`);
           }
           if (data.email) {
