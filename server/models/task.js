@@ -5,8 +5,13 @@ const taskSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    user:{
+      required:true,
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'User'
+    }
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 const Task = mongoose.model("task", taskSchema);
 module.exports = Task;

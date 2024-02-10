@@ -5,7 +5,7 @@ const userSchema = new Schema({
   username: {
     type: String,
     required: true,
-    minlength: [6, "Username should be of minimum 6 character"],
+    minlength: [4, "Username should be of minimum 4 character"],
     unique: true,
   },
   email: {
@@ -18,6 +18,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  tasks: [{ type: mongose.Schema.Types.ObjectId, ref: "Task" }],
 });
 
 userSchema.pre("save", async function (next) {
@@ -39,5 +40,5 @@ userSchema.statics.login = async function (email, password) {
     throw Error("User doesnot exists");
   }
 };
-const User = mongose.model("user", userSchema);
+const User = mongose.model("User", userSchema);
 module.exports = User;
