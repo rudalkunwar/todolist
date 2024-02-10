@@ -37,7 +37,7 @@ const user_register = async (req, res) => {
       maxAge: day * 3 * 1000,
       httpOnly: true,
     });
-    res.status(201).json({ user: user.username, acessToken: token });
+    res.status(201).json({ user: user.username, accessToken: token });
   } catch (err) {
     const errors = errorHandler(err);
     res.json(errors);
@@ -52,7 +52,7 @@ const user_login = async (req, res) => {
       maxAge: day * 3 * 1000,
       httpOnly: true,
     });
-    res.status(201).json({ user: user.username, acessToken: token });
+    res.status(201).json({ user: user.username, accessToken: token });
   } catch (err) {
     const errors = errorHandler(err);
     res.json(errors);

@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt, faTasks } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../authSlice";
 import axios from "../../api/axios";
 const Taskbar = () => {
-  const [user_token, setToken] = useState("");
   const dispatch = useDispatch();
+  const user_token = useSelector((state) => state.accessToken.value);
   const user_logout = async () => {
     try {
       const res = await axios.post("/logout", {
@@ -22,12 +22,6 @@ const Taskbar = () => {
       console.log(e + "error to logout");
     }
   };
-  useEffect(() => {
-    const token = localStorage.getItem("acessToken");
-    if (token) {
-      setToken(token);
-    }
-  }, [user_token]);
   return (
     <nav className="bg-gray-900 text-white p-4 flex justify-between items-center">
       <div className="text-2xl font-bold">

@@ -13,7 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "../../api/axios";
 import { useDispatch } from "react-redux";
-import { isAuth ,setUser} from "../../authSlice";
+import { isAuth, setToken, setUser } from "../../authSlice";
 export default function Login() {
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -33,10 +33,10 @@ export default function Login() {
           const data = response.data;
           if (data.user) {
             const user = data.user;
+            const token = data.accessToken;
             dispatch(isAuth());
             dispatch(setUser(user));
-            const token = data.acessToken;
-            localStorage.setItem("acessToken", token);
+            dispatch(setToken(token));
             navigate(`/todolist/${user}`);
           }
           if (data.email) {

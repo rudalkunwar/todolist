@@ -5,21 +5,25 @@ const authSlice = createSlice({
   initialState: {
     value: false,
     user: null, // Add a field to store the user information
+    accessToken: null,
   },
   reducers: {
     isAuth(state) {
       state.value = true;
     },
-    setUser(state, action) { // Define a new reducer to set the user information
+    setUser(state, action) {
       state.user = action.payload;
     },
+    setToken(state, action) {
+      state.accessToken = action.payload;
+    },
     logout(state) {
+      state.accessToken = null;
       state.value = false;
       state.user = null; // Reset the user information when logging out
-      localStorage.removeItem("accessToken");
     },
   },
 });
 
-export const { isAuth, setUser, logout } = authSlice.actions;
+export const { isAuth, setUser, setToken, logout } = authSlice.actions;
 export default authSlice.reducer;

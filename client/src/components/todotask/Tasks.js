@@ -9,9 +9,10 @@ function Tasks() {
   const [tasks, setTask] = useState([]);
   const addTask = (e) => {
     e.preventDefault();
-    const newTask = e.target.task.value;
+    const title = e.target.title.value;
+    const description = e.target.description.value;
     try {
-      const response = axios.post("/task/add", { newTask });
+      const response = axios.post("/task/add", { title,description });
       if (response) {
         console.log(response.data.message);
       } else {
@@ -81,16 +82,31 @@ function Tasks() {
               <div className="mb-4">
                 <label
                   className="block text-gray-700 font-bold mb-2"
-                  htmlFor="task"
+                  htmlFor="title"
                 >
-                  Task:
+                  Title:
                 </label>
                 <input
                   className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="task"
+                  id="title"
                   type="text"
-                  name="task"
-                  placeholder="Enter task"
+                  name="title"
+                  placeholder="Enter Title"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 font-bold mb-2"
+                  htmlFor="description"
+                >
+                  Description:
+                </label>
+                <input
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="description"
+                  type="text"
+                  name="description"
+                  placeholder="Enter Description"
                 />
               </div>
               <div className="flex justify-end">
