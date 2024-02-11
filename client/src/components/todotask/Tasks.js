@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "../../api/axios";
 
 function Tasks() {
+  const user = localStorage.getItem("username");
   const [form, ToggleForm] = useState(false);
   const [tasks, setTask] = useState([]);
   const addTask = (e) => {
@@ -12,7 +13,7 @@ function Tasks() {
     const title = e.target.title.value;
     const description = e.target.description.value;
     try {
-      const response = axios.post("/task/add", { title,description });
+      const response = axios.post("/task/add", { title, description, user });
       if (response) {
         console.log(response.data.message);
       } else {
@@ -24,7 +25,7 @@ function Tasks() {
   };
   const getTasks = async () => {
     try {
-      const response = await axios.get("/todolist");
+      const response = await axios.get(`/todolist/${user}`);
       if (response) {
         console.log("sucess");
       }
