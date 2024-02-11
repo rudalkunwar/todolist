@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
@@ -8,28 +8,25 @@ import Page404 from "./components/404page/Page404";
 import ProtectedRoute from "./components/protectedRoutes/ProtectedRoute";
 
 function App() {
-  const [isAuth, setAuth] = useState(false);
-  useEffect(() => {
-    const login = localStorage.getItem("accessToken");
-    if (login) {
-      setAuth(true);
-    }
-  }, []);
   return (
     <Router>
       <div>
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route
+          {/* <Route
             path="/todolist/:username"
             element={
-              <ProtectedRoute isAuth={isAuth}>
+              <ProtectedRoute>
                 <Todolist />
               </ProtectedRoute>
             }
-          />
+          /> */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/todolist/:user" element={<Todolist />} />
+          </Route>
           <Route path="*" element={<Page404 />} />
         </Routes>
       </div>

@@ -43,6 +43,7 @@ export default function Register() {
             const user = data.user;
             localStorage.setItem("username", user);
             localStorage.setItem("acessToken", token);
+            localStorage.setItem("isAuth", true);
             navigate(`/todolist/${user}`);
           }
           if (data.email) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLock,
@@ -30,6 +30,7 @@ export default function Login() {
             const token = data.accessToken;
             localStorage.setItem("username", user);
             localStorage.setItem("accessToken", token);
+            localStorage.setItem("isAuth", true);
             navigate(`/todolist/${user}`);
           }
           if (data.email) {

@@ -1,5 +1,4 @@
 import React from 'react'
-import AddTask from './AddTask'
 import Tasks from './Tasks'
 import Taskbar from './Taskbar'
 

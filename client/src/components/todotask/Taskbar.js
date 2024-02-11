@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt, faTasks } from "@fortawesome/free-solid-svg-icons";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 const Taskbar = () => {
+  const navigate = useNavigate();
   const token = localStorage.getItem("accessToken");
   const user_logout = async () => {
     try {
@@ -13,7 +14,8 @@ const Taskbar = () => {
       if (res) {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("username");
-        <Navigate to="/" />;
+        localStorage.removeItem("isAuth");
+        navigate("/");
       } else {
         console.log("error logout");
       }

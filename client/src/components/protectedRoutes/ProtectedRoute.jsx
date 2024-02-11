@@ -1,7 +1,8 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
-function ProtectedRoute({ isAuth, children }) {
+function ProtectedRoute({ children }) {
+  const isAuth = localStorage.getItem("isAuth");
   if (!isAuth) {
     return <Navigate to="/login" />;
   } else return children ? children : <Outlet />;
