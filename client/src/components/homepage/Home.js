@@ -4,8 +4,8 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useSelector } from "react-redux";
 
-export default function Home({ isAuth }) {
-  const user = useSelector((state) => state.auth.user);
+export default function Home() {
+  const user = localStorage.getItem("username");
   return (
     <>
       <Navbar />
@@ -28,7 +28,7 @@ export default function Home({ isAuth }) {
                 Get started
               </Link>
               <Link
-                to={isAuth && user ? `/todolist/${user}` : `/login`}
+                to={!user ? `/login` : `/todolist/${user}`}
                 className="relative inline-block px-8 py-4 border border-green-500 text-green-500 rounded-full font-semibold text-lg hover:bg-green-500 hover:text-white transition duration-300"
               >
                 Todolists

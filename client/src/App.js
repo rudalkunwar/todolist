@@ -1,16 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Home from "./components/homepage/Home";
-import { useSelector } from "react-redux";
-import { isAuth } from "./authSlice";
 import Todolist from "./components/todotask/Todolist";
 import Page404 from "./components/404page/Page404";
+import ProtectedRoute from "./components/protectedRoutes/ProtectedRoute";
 
 function App() {
-  const isAuthenticated = useSelector((state) => state.auth.value);
-  const token = localStorage.getItem('accessToken');
+  const [isAuth, setAuth] = useState(false);
+  useEffect(() => {
+    const isAuth = localStorage.getItem("accessToken");
+    if (isAuth) {
+      setAuth(true);
+    }
+  }, []);
   return (
     <Router>
       <div>
@@ -20,11 +24,11 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route
             path="/todolist/:username"
-            element={isAuthenticated && token ? <Todolist /> : <Login />}
-          />
-          <Route
-            path="/"
-            element={<Home isAuth={isAuthenticated} />}
+            element={
+              <ProtectedRoute isAuth={isAuth}>
+                <Todolist />
+              </ProtectedRoute>
+            }
           />
           <Route path="*" element={<Page404 />} />
         </Routes>

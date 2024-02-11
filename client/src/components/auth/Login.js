@@ -12,15 +12,9 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "../../api/axios";
-import { useDispatch } from "react-redux";
-import { isAuth, setToken, setUser } from "../../authSlice";
 export default function Login() {
   const [isLoading, setLoading] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  // useEffect(() => {
-
-  // }, []);
   const login = (event) => {
     setLoading(true);
     const formdata = new FormData(event.target);
@@ -34,9 +28,8 @@ export default function Login() {
           if (data.user) {
             const user = data.user;
             const token = data.accessToken;
-            dispatch(isAuth());
-            dispatch(setUser(user));
-            localStorage.setItem('accessToken',token);
+            localStorage.setItem("username", user);
+            localStorage.setItem("accessToken", token);
             navigate(`/todolist/${user}`);
           }
           if (data.email) {

@@ -14,11 +14,8 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "../../api/axios";
-import { isAuth, setToken, setUser } from "../../authSlice";
-import { useDispatch } from "react-redux";
 export default function Register() {
   const [isLoading, setLoading] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const register = async (event) => {
     event.preventDefault();
@@ -44,9 +41,8 @@ export default function Register() {
           if (data.user) {
             const token = data.accessToken;
             const user = data.user;
-            dispatch(isAuth());
-            dispatch(setUser(user));
-            localStorage.setItem("accessToken", token);
+            localStorage.setItem("username", user);
+            localStorage.setItem("acessToken", token);
             navigate(`/todolist/${user}`);
           }
           if (data.email) {

@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt, faTasks } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../authSlice";
 import axios from "../../api/axios";
 const Taskbar = () => {
-  const dispatch = useDispatch();
   const token = localStorage.getItem("accessToken");
   const user_logout = async () => {
     try {
@@ -14,7 +11,7 @@ const Taskbar = () => {
         userToken: token,
       });
       if (res) {
-        dispatch(logout());
+        localStorage.removeItem("accessToken");
       } else {
         console.log("error logout");
       }
