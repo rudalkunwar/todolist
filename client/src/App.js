@@ -10,8 +10,8 @@ import ProtectedRoute from "./components/protectedRoutes/ProtectedRoute";
 function App() {
   const [isAuth, setAuth] = useState(false);
   useEffect(() => {
-    const isAuth = localStorage.getItem("accessToken");
-    if (isAuth) {
+    const login = localStorage.getItem("accessToken");
+    if (login) {
       setAuth(true);
     }
   }, []);

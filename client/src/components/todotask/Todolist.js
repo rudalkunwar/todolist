@@ -7,10 +7,9 @@ function Todolist() {
   return (
     <div>
     <Taskbar/>
-    {/* <AddTask/> */}
     <Tasks/>
     </div>
   )
 }
 
-export default Todolist
+export default Todolist;
