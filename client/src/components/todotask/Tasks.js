@@ -8,14 +8,15 @@ function Tasks() {
   const user = localStorage.getItem("username");
   const [form, ToggleForm] = useState(false);
   const [tasks, setTask] = useState([]);
-  const addTask = (e) => {
+  const addTask = async (e) => {
     e.preventDefault();
     const title = e.target.title.value;
     const description = e.target.description.value;
     try {
-      const response = axios.post("/task/add", { title, description, user });
+      const response = await axios.post("/task/add", { title, description, user });
       if (response) {
         console.log(response.data.message);
+        ToggleForm(false);
       } else {
         console.log("unable to add task");
       }
@@ -27,7 +28,8 @@ function Tasks() {
     try {
       const response = await axios.get(`/todolist/${user}`);
       if (response) {
-        console.log("sucess");
+        const data = response.data;
+        setTask(data);
       }
     } catch (e) {
       console.log("Server error");
@@ -35,7 +37,7 @@ function Tasks() {
   };
   useEffect(() => {
     getTasks();
-  });
+  }, []);
   return (
     <div className="flex justify-center items-center h-[40rem] bg-green-200">
       <div className="max-w-lg w-full p-6 bg-orange-400 rounded-lg shadow-md">
@@ -52,18 +54,16 @@ function Tasks() {
           </div>
           <h2 className="text-2xl font-semibold mb-2">Ongoing </h2>
           <ul>
-            <li className="flex items-center mb-2">
-              <input type="checkbox" className="mr-2" />
-              <span>Study</span>
-            </li>
-            <li className="flex items-center mb-2">
-              <input type="checkbox" className="mr-2" />
-              <span>Gym</span>
-            </li>
-            <li className="flex items-center">
-              <input type="checkbox" className="mr-2" />
-              <span>Running</span>
-            </li>
+            {tasks.length !== 0 ? (
+              tasks.map((task) => (
+                <li key={task._id} className="flex items-center mb-2">
+                  <input type="checkbox" className="mr-2" />
+                  <span>{task.title}</span>
+                </li>
+              ))
+            ) : (
+              <li>No task available</li>
+            )}
           </ul>
         </div>
         <div>
