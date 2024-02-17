@@ -42,11 +42,11 @@ function Tasks() {
       console.log("Server error");
     }
   };
-  const deletetask = (id) =>{
+  const deletetask = async (id) =>{
     try{
-      const response = axios.delete(id);
+      const response = await axios.delete('task/delete',{params:{id}});
       if(response){
-        console.log("Task deleted sucessfully");
+        console.log(response.data.message);
       }else{
         console.log("cannot delete task");
       }
@@ -57,7 +57,6 @@ function Tasks() {
   useEffect(() => {
     getTasks();
   }, []);
-  console.log(tasks);
   return (
     <div className="flex justify-center items-center h-[40rem] bg-green-200">
       <div className="max-w-lg w-full p-6 bg-orange-400 rounded-lg shadow-md">
@@ -79,7 +78,7 @@ function Tasks() {
                 <li key={task._id} className="flex items-center mb-2">
                   <input type="checkbox" className="mr-2" />
                   <span>{task.title}</span>
-                  <MdDeleteForever className="text-2xl ml-10 cursor-pointer" onClick={()=>deletetask(task._id)}  />
+                  <MdDeleteForever className="text-2xl ml-10 cursor-pointer hover:bg-gray-500 hover:text-white" onClick={()=>deletetask(task._id)}  />
                 </li>
               ))
             ) : (
