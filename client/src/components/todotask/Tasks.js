@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { MdDeleteForever } from "react-icons/md";
 import { useState } from "react";
 import axios from "../../api/axios";
 
@@ -13,7 +14,11 @@ function Tasks() {
     const title = e.target.title.value;
     const description = e.target.description.value;
     try {
-      const response = await axios.post("/task/add", { title, description, user });
+      const response = await axios.post("/task/add", {
+        title,
+        description,
+        user,
+      });
       if (response) {
         console.log(response.data.message);
         ToggleForm(false);
@@ -30,14 +35,24 @@ function Tasks() {
       if (response) {
         const data = response.data;
         setTask(data);
+      } else {
+        console.log("Cannot get array of tasks");
       }
     } catch (e) {
       console.log("Server error");
     }
   };
+  const deletetask = (id) =>{
+    try{
+
+    }catch(e){
+      console.log("cannot delete item this time",e);
+    }
+  }
   useEffect(() => {
     getTasks();
   }, []);
+  console.log(tasks);
   return (
     <div className="flex justify-center items-center h-[40rem] bg-green-200">
       <div className="max-w-lg w-full p-6 bg-orange-400 rounded-lg shadow-md">
@@ -54,11 +69,12 @@ function Tasks() {
           </div>
           <h2 className="text-2xl font-semibold mb-2">Ongoing </h2>
           <ul>
-            {tasks.length !== 0 ? (
+            {Array.isArray(tasks) && tasks.length !== 0 ? (
               tasks.map((task) => (
                 <li key={task._id} className="flex items-center mb-2">
                   <input type="checkbox" className="mr-2" />
                   <span>{task.title}</span>
+                  <MdDeleteForever className="text-2xl ml-10 cursor-pointer" onClick={()=>deletetask(task._id)}  />
                 </li>
               ))
             ) : (
