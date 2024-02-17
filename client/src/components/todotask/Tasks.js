@@ -44,7 +44,12 @@ function Tasks() {
   };
   const deletetask = (id) =>{
     try{
-
+      const response = axios.delete(id);
+      if(response){
+        console.log("Task deleted sucessfully");
+      }else{
+        console.log("cannot delete task");
+      }
     }catch(e){
       console.log("cannot delete item this time",e);
     }
